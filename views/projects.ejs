@@ -1,0 +1,64 @@
+<%- include('partials/header', { title: 'Projects — Loewe Sing', bodyClass: 'projects-page', activePage: 'projects' }) %>
+<%
+  const projectItems = (typeof projects !== 'undefined' && projects.length) ? projects : [
+    { title: 'Full Stack Web App', category: 'Web development', description: 'A responsive full stack application built around a clear user need, with considered interface design and reliable server-side functionality.', details: 'This project brings together front-end and back-end development, data handling, and a careful, user-centred workflow. Replace this overview with your project story when ready.', tech: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'Express'], github: '', demo: '' },
+    { title: 'UI/UX Prototype', category: 'Product design', description: 'A considered interface prototype shaped through user flows, visual exploration, and iterative refinement.', details: 'A design exercise focused on making an everyday task feel simple and welcoming. Add research notes, key screens, and outcomes here.', tech: ['Figma', 'Prototyping', 'UI/UX'], github: '', demo: '' },
+    { title: 'Software Testing & QA', category: 'Quality assurance', description: 'A structured approach to test planning, clear test cases, and useful feedback that helps software work as intended.', details: 'This work explores test planning and quality practices, with attention to reproducible cases and clear reporting.', tech: ['Test planning', 'Manual testing', 'GitHub'], github: '', demo: '' },
+    { title: 'Agile & DevOps Deployment', category: 'Team delivery', description: 'A collaborative development workflow that connects incremental delivery, version control, and deployment practices.', details: 'A placeholder for a team project showing how an idea moved from planning to a working deployment.', tech: ['Agile', 'Git', 'CI/CD', 'Deployment'], github: '', demo: '' }
+  ];
+%>
+<main id="main" class="projects-main">
+  <section class="projects-intro">
+    <p class="section-kicker">PORTFOLIO &amp; EXPERIMENTS</p>
+    <h1>Selected works.</h1>
+    <p>A showcase of web applications, mobile interfaces, and technical projects built through iteration and structured problem-solving.</p>
+    <span class="intro-ornament" aria-hidden="true">✿</span>
+  </section>
+
+  <section class="orchard" aria-label="Projects hanging from a cherry blossom branch">
+    <canvas class="canopy-base" id="canopy-base" aria-hidden="true"></canvas>
+    <div class="branch-scene" aria-hidden="true">
+      <svg class="branch-art" viewBox="0 0 1440 390" preserveAspectRatio="none" role="presentation">
+        <defs>
+          <linearGradient id="bark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#72505a"/><stop offset=".35" stop-color="#382833"/><stop offset=".7" stop-color="#211b2b"/><stop offset="1" stop-color="#58404e"/></linearGradient>
+        </defs>
+        <g fill="none" stroke="url(#bark)" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Independent left tree with a grounded trunk and inward-growing limbs. -->
+          <path stroke-width="38" d="M-38 420 C24 352 24 303 64 242 C99 188 151 163 218 143 C302 117 399 99 500 62"/>
+          <path stroke-width="24" d="M49 264 C28 215 38 163 71 119 C104 74 144 52 171 -12 M104 207 C121 158 165 115 215 83 M139 178 C188 130 207 89 220 40"/>
+          <!-- Right tree mirrors the left without joining across the canopy. -->
+          <path stroke-width="38" d="M1478 420 C1416 352 1416 303 1376 242 C1341 188 1289 163 1222 143 C1138 117 1041 99 940 62"/>
+          <path stroke-width="24" d="M1391 264 C1412 215 1402 163 1369 119 C1336 74 1296 52 1269 -12 M1336 207 C1319 158 1275 115 1225 83 M1301 178 C1252 130 1233 89 1220 40"/>
+          <!-- Forked branches terminate directly above each matching cord. -->
+          <path class="branch-anchor-wide" stroke-width="15" d="M140 171 C198 175 250 191 300 220 M245 136 C365 139 469 199 580 268 M1300 171 C1242 175 1190 191 1140 284 M1195 136 C1075 139 971 199 860 228"/>
+          <path class="branch-anchor-compact" stroke-width="15" d="M100 171 C133 180 157 197 180 220 M238 137 C342 148 443 205 540 268 M1340 171 C1307 180 1283 197 1260 284 M1202 137 C1098 148 997 205 900 228"/>
+          <path class="branch-anchor-mobile" stroke-width="14" d="M40 183 C178 154 270 109 360 98 M120 222 C213 254 282 303 360 309 M1400 183 C1262 154 1170 109 1080 98 M1320 222 C1227 254 1158 303 1080 309"/>
+        </g>
+      </svg>
+    </div>
+    <canvas class="blossom-canopy" id="blossom-canopy" aria-hidden="true"></canvas>
+    <canvas class="falling-petal-canvas" id="falling-petal-canvas" aria-hidden="true"></canvas>
+    <div class="hanging-projects">
+      <% projectItems.forEach((project, index) => { %>
+        <button class="project-charm" type="button" style="--charm-index:<%= index %>; --charm-delay:<%= index * -0.55 %>s" data-project="<%= index %>" aria-haspopup="dialog" aria-label="View <%= project.title %>">
+          <span class="silk-thread" aria-hidden="true"></span>
+          <span class="charm-card"><span class="charm-number">0<%= index + 1 %></span><span class="charm-category"><%= project.category %></span><strong><%= project.title %></strong><span class="charm-open">View project <span aria-hidden="true">↗</span></span></span>
+        </button>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="project-note content-width"><span class="note-flower" aria-hidden="true">✿</span><p>Still growing. These are placeholders for work I’m proud to share as my practice takes shape.</p><a class="text-link" href="mailto:25014844@myrp.edu.sg">Ask me about my work <span aria-hidden="true">↗</span></a></section>
+</main>
+
+<dialog class="project-dialog" aria-labelledby="dialog-title">
+  <button class="dialog-close" type="button" aria-label="Close project details">×</button>
+  <p class="section-kicker" id="dialog-category"></p>
+  <h2 id="dialog-title"></h2>
+  <p class="dialog-description"></p>
+  <p class="dialog-details"></p>
+  <div class="dialog-tech"></div>
+  <div class="dialog-links"></div>
+</dialog>
+<script type="application/json" id="projects-data"><%- JSON.stringify(projectItems).replace(/</g, '\\u003c') %></script>
+<%- include('partials/footer') %>
