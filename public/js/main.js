@@ -1,6 +1,97 @@
 ﻿(() => {
   'use strict';
 
+  // Update the detailed cursor on movement only, with one coalesced animation frame.
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const sakuraCursor = document.querySelector('.sakura-cursor');
+  if (finePointer.matches && sakuraCursor) {
+    document.documentElement.classList.add('sakura-pointer');
+    let lastPetalAt = 0;
+    let lastX = -1, lastY = -1;
+    let pointerX = 0, pointerY = 0, cursorFrame = 0;
+    const hoverable = 'a,button,input,textarea,select,[data-copy],[role="button"]';
+    const paintCursor = () => {
+      sakuraCursor.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0) translate(-50%, -50%)`;
+      cursorFrame = 0;
+    };
+    window.addEventListener('mousemove', event => {
+      const x = event.clientX, y = event.clientY;
+      pointerX = x; pointerY = y;
+      if (!cursorFrame) cursorFrame = requestAnimationFrame(paintCursor);
+      sakuraCursor.classList.add('is-visible');
+      sakuraCursor.classList.toggle('is-interactive', Boolean(event.target.closest?.(hoverable)));
+      const now = performance.now();
+      if (now - lastPetalAt >= 36 && (Math.abs(x - lastX) + Math.abs(y - lastY) > 2)) {
+        lastPetalAt = now; lastX = x; lastY = y;
+        const count = Math.random() < .32 ? 2 : 1;
+        for (let i = 0; i < count; i++) {
+          const petal = document.createElement('i');
+          petal.className = 'sakura-trail-petal';
+          petal.style.setProperty('--start-x', `${x + (Math.random() - .5) * 8}px`);
+          petal.style.setProperty('--start-y', `${y + (Math.random() - .5) * 8}px`);
+          petal.style.setProperty('--drift', `${(Math.random() - .5) * 65}px`);
+          petal.style.setProperty('--drop', `${58 + Math.random() * 65}px`);
+          petal.style.setProperty('--spin', `${(Math.random() - .5) * 240}deg`);
+          petal.style.setProperty('--fall-time', `${1.2 + Math.random() * .4}s`);
+          document.body.append(petal);
+          window.setTimeout(() => petal.remove(), 1800);
+        }
+      }
+    }, { passive: true });
+    window.addEventListener('mouseout', event => {
+      if (!event.relatedTarget) sakuraCursor.classList.remove('is-visible');
+    }, { passive: true });
+    window.addEventListener('blur', () => sakuraCursor.classList.remove('is-visible'));
+    window.addEventListener('pagehide', () => sakuraCursor.classList.remove('is-visible'));
+    window.addEventListener('pageshow', () => sakuraCursor.classList.remove('is-visible'));
+    finePointer.addEventListener?.('change', event => {
+      if (!event.matches) document.documentElement.classList.remove('sakura-pointer');
+      else document.documentElement.classList.add('sakura-pointer');
+    });
+  }
+
+  // Scroll reveals, skill focus, copy feedback, and contact form transitions.
+  const bloomTargets = document.querySelectorAll('.about-journey-card,.skill-cluster,.about-resume-section > .about-section-heading,.about-resume-section > .about-wide-card,.project-charm');
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    bloomTargets.forEach((item, index) => { item.dataset.bloom = ''; item.style.transitionDelay = `${Math.min(index % 4, 3) * 70}ms`; });
+    const bloomObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('is-bloomed'); bloomObserver.unobserve(entry.target); }
+    }), { threshold: .12, rootMargin: '0px 0px -35px 0px' });
+    bloomTargets.forEach(item => bloomObserver.observe(item));
+  }
+
+  document.querySelectorAll('[data-skill-explorer]').forEach(explorer => {
+    explorer.addEventListener('click', event => {
+      const button = event.target.closest('[data-skill-filter]');
+      if (!button) return;
+      explorer.dataset.active = button.dataset.skillFilter;
+      explorer.querySelectorAll('[data-skill-filter]').forEach(filter => filter.setAttribute('aria-pressed', String(filter === button)));
+    });
+    explorer.addEventListener('pointerover', event => {
+      const button = event.target.closest('[data-skill-filter]');
+      if (button) explorer.dataset.active = button.dataset.skillFilter;
+    });
+    explorer.addEventListener('pointerleave', () => { explorer.dataset.active = 'all'; });
+  });
+
+  document.addEventListener('click', async event => {
+    const copyButton = event.target.closest('[data-copy]');
+    if (copyButton) {
+      try {
+        await navigator.clipboard.writeText(copyButton.dataset.copy);
+        const toast = document.createElement('div'); toast.className = 'contact-toast'; toast.setAttribute('role', 'status'); toast.textContent = 'Copied!';
+        document.body.append(toast); window.setTimeout(() => toast.remove(), 3300);
+      } catch (_) { copyButton.setAttribute('aria-label', 'Copy unavailable; select the contact text'); }
+    }
+    if (event.target.closest('.contact-again')) window.location.href = '/contact';
+  });
+
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) contactForm.addEventListener('submit', event => {
+    if (!contactForm.reportValidity()) { event.preventDefault(); return; }
+    contactForm.classList.add('is-submitting');
+  });
+
   // Sample the complete name in CSS pixels, then render each sample as a sakura petal.
   const canvas = document.getElementById('petal-canvas');
   if (canvas) {
@@ -10,6 +101,9 @@
     const colors = ['#FFB7C5', '#FFC8DD', '#FFAFCC', '#F8EDEB', '#E0B1CB'];
     const particles = [];
     let width = 0, height = 0, dpr = 1, scrollProgress = 0, targetScrollProgress = 0, frame = 0;
+    const pointer = { x: -1000, y: -1000 };
+    window.addEventListener('mousemove', event => { pointer.x = event.clientX; pointer.y = event.clientY; }, { passive: true });
+    window.addEventListener('mouseleave', () => { pointer.x = -1000; pointer.y = -1000; }, { passive: true });
     let canvasRunning = false;
     const ambient = [];
     let lastFrameTime = 0;
@@ -73,6 +167,8 @@
       for (const petal of ambient) {
         petal.x += (petal.vx + Math.sin(time * .00035 + petal.phase) * petal.sway * 4) * elapsed;
         petal.y += petal.vy * elapsed;
+        const dx = petal.x - pointer.x, dy = petal.y - pointer.y, distance2 = dx * dx + dy * dy;
+        if (distance2 < 10000 && distance2 > 1) { const force = (1 - Math.sqrt(distance2) / 100) * 22 * elapsed; petal.x += dx / Math.sqrt(distance2) * force; petal.y += dy / Math.sqrt(distance2) * force; }
         petal.angle += petal.spin * elapsed;
         if (petal.y > height + 14) { petal.y = -14; petal.x = Math.random() * width; }
         if (petal.x < -14) petal.x = width + 14;
@@ -342,7 +438,26 @@
           const note = document.createElement('span'); note.className = 'dialog-link-note'; note.textContent = 'Project links coming soon'; links.append(note);
         }
         if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', '');
+        dialog.dispatchEvent(new Event('open'));
       });
+    });
+    const openProjectFromHash = () => {
+      const match = window.location.hash.match(/^#project-(0[1-4])$/);
+      if (!match) return;
+      const target = document.getElementById(`project-${match[1]}`);
+      if (!target) return;
+      target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      target.click();
+    };
+    window.addEventListener('hashchange', openProjectFromHash);
+    if (window.location.hash) window.setTimeout(openProjectFromHash, 0);
+    dialog.addEventListener('open', () => {
+      if (finePointer.matches && sakuraCursor) dialog.append(sakuraCursor);
+      window.dispatchEvent(new Event('portfolio:modal-open'));
+    });
+    dialog.addEventListener('close', () => {
+      if (sakuraCursor) document.body.append(sakuraCursor);
+      window.dispatchEvent(new Event('portfolio:modal-close'));
     });
     dialog.querySelector('.dialog-close')?.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
@@ -364,7 +479,7 @@
       const fallingPool = [];
       const particleCount = viewportPetals ? 48 : 64;
       let width = 0, height = 0, pixelRatio = 1, fallingFrame = 0, lastTime = 0;
-      let running = false, inView = viewportPetals || !('IntersectionObserver' in window);
+      let running = false, modalOpen = false, inView = viewportPetals || !('IntersectionObserver' in window);
 
       function spawnPetal(petal, initial = false) {
         const fromLeftTree = Math.random() < .5;
@@ -431,7 +546,7 @@
       }
 
       function startFallingPetals() {
-        if (running || !inView || document.hidden || !width || !height) return;
+        if (running || modalOpen || !inView || document.hidden || !width || !height) return;
         running = true;
         lastTime = 0;
         fallingFrame = requestAnimationFrame(drawFallingPetals);
@@ -446,6 +561,8 @@
       resizeFallingCanvas();
       window.addEventListener('resize', resizeFallingCanvas, { passive: true });
       document.addEventListener('visibilitychange', () => document.hidden ? stopFallingPetals() : startFallingPetals());
+      window.addEventListener('portfolio:modal-open', () => { modalOpen = true; stopFallingPetals(); });
+      window.addEventListener('portfolio:modal-close', () => { modalOpen = false; startFallingPetals(); });
       window.addEventListener('pagehide', stopFallingPetals);
       window.addEventListener('pageshow', startFallingPetals);
       if (orchard && 'ResizeObserver' in window) new ResizeObserver(resizeFallingCanvas).observe(orchard);

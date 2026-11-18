@@ -1,7 +1,37 @@
 <%- include('partials/header', { title: 'About — Loewe Sing', bodyClass: 'about-page', activePage: 'about' }) %>
 
-<canvas class="ambient-petal-canvas" id="ambient-petal-canvas" aria-hidden="true"></canvas>
 <main id="main" class="about-main">
+  <div class="about-corner-canopy" aria-hidden="true">
+    <svg viewBox="0 0 1440 330" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="about-bark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a77891"/><stop offset="1" stop-color="#2c1f33"/></linearGradient>
+        <clipPath id="about-right-corner"><path d="M1020 0H1440V330Z"/></clipPath>
+        <symbol id="about-project-blossom" viewBox="0 0 24 24">
+          <g fill="currentColor">
+            <ellipse cx="12" cy="7.8" rx="4" ry="6.8"/><ellipse cx="16" cy="10.7" rx="4" ry="6.8" transform="rotate(72 16 10.7)"/><ellipse cx="14.5" cy="15.4" rx="4" ry="6.8" transform="rotate(144 14.5 15.4)"/><ellipse cx="9.5" cy="15.4" rx="4" ry="6.8" transform="rotate(216 9.5 15.4)"/><ellipse cx="8" cy="10.7" rx="4" ry="6.8" transform="rotate(288 8 10.7)"/>
+          </g><circle cx="12" cy="12" r="1.8" fill="#FFF8ED"/>
+        </symbol>
+        <g id="about-tree-art" fill="none" stroke="url(#about-bark)" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke-width="13" d="M430-18C360 38 332 72 290 105S220 153 155 176"/><path stroke-width="8" d="M353 43C313 37 282 23 253-5M322 75C302 48 297 21 300-12M288 106C250 96 218 72 198 45M267 122C240 143 207 156 176 160M224 146C201 123 185 97 180 69M186 165C157 145 127 133 96 129"/>
+          <path stroke-width="9" d="M398 15C410 55 411 101 400 142S394 220 408 260"/><path stroke-width="5.5" d="M406 101C378 120 363 147 356 177M398 158C421 178 426 205 418 232M401 205C378 220 367 241 364 264"/>
+          <path stroke-width="7" d="M365 52C352 91 345 128 347 164S341 215 323 246"/><path stroke-width="4.5" d="M350 126C331 137 320 153 315 171M345 183C361 196 369 214 367 232"/>
+        </g>
+        <g id="about-tree-blossoms">
+          <use href="#about-project-blossom" x="284" y="4" width="32" height="32" style="color:#FFC8DD" opacity=".82"/><use href="#about-project-blossom" x="241" y="42" width="18" height="18" style="color:#FFB7C5" opacity=".52"/><use href="#about-project-blossom" x="184" y="64" width="28" height="28" style="color:#FFAFCC" opacity=".9"/><use href="#about-project-blossom" x="329" y="82" width="17" height="17" style="color:#E0B1CB" opacity=".48"/><use href="#about-project-blossom" x="158" y="110" width="22" height="22" style="color:#F8EDEB" opacity=".72"/>
+          <use href="#about-project-blossom" x="382" y="72" width="28" height="28" style="color:#FFC8DD" opacity=".76"/><use href="#about-project-blossom" x="386" y="126" width="18" height="18" style="color:#FFAFCC" opacity=".45"/><use href="#about-project-blossom" x="348" y="163" width="24" height="24" style="color:#E0B1CB" opacity=".84"/><use href="#about-project-blossom" x="394" y="210" width="30" height="30" style="color:#FFB7C5" opacity=".58"/><use href="#about-project-blossom" x="352" y="247" width="18" height="18" style="color:#F8EDEB" opacity=".42"/>
+          <use href="#about-project-blossom" x="337" y="34" width="14" height="14" style="color:#FFAFCC" opacity=".58"/><use href="#about-project-blossom" x="306" y="56" width="12" height="12" style="color:#F8EDEB" opacity=".46"/><use href="#about-project-blossom" x="274" y="83" width="15" height="15" style="color:#FFC8DD" opacity=".62"/><use href="#about-project-blossom" x="223" y="100" width="12" height="12" style="color:#FFB7C5" opacity=".5"/><use href="#about-project-blossom" x="375" y="111" width="13" height="13" style="color:#E0B1CB" opacity=".68"/><use href="#about-project-blossom" x="400" y="170" width="14" height="14" style="color:#FFAFCC" opacity=".54"/><use href="#about-project-blossom" x="378" y="195" width="12" height="12" style="color:#F8EDEB" opacity=".44"/><use href="#about-project-blossom" x="390" y="236" width="15" height="15" style="color:#FFC8DD" opacity=".61"/>
+          <use href="#about-project-blossom" x="355" y="45" width="11" height="11" style="color:#F8EDEB" opacity=".48"/><use href="#about-project-blossom" x="326" y="28" width="13" height="13" style="color:#FFB7C5" opacity=".56"/><use href="#about-project-blossom" x="286" y="27" width="10" height="10" style="color:#E0B1CB" opacity=".43"/><use href="#about-project-blossom" x="258" y="48" width="12" height="12" style="color:#FFC8DD" opacity=".54"/><use href="#about-project-blossom" x="232" y="76" width="10" height="10" style="color:#FFAFCC" opacity=".46"/><use href="#about-project-blossom" x="364" y="91" width="12" height="12" style="color:#FFB7C5" opacity=".5"/><use href="#about-project-blossom" x="342" y="112" width="10" height="10" style="color:#F8EDEB" opacity=".42"/><use href="#about-project-blossom" x="331" y="150" width="13" height="13" style="color:#FFC8DD" opacity=".58"/><use href="#about-project-blossom" x="367" y="178" width="11" height="11" style="color:#FFAFCC" opacity=".47"/><use href="#about-project-blossom" x="338" y="195" width="12" height="12" style="color:#E0B1CB" opacity=".52"/><use href="#about-project-blossom" x="373" y="217" width="10" height="10" style="color:#F8EDEB" opacity=".44"/><use href="#about-project-blossom" x="322" y="231" width="12" height="12" style="color:#FFB7C5" opacity=".55"/><use href="#about-project-blossom" x="300" y="173" width="10" height="10" style="color:#FFC8DD" opacity=".4"/><use href="#about-project-blossom" x="314" y="138" width="11" height="11" style="color:#E0B1CB" opacity=".48"/><use href="#about-project-blossom" x="294" y="105" width="10" height="10" style="color:#F8EDEB" opacity=".43"/><use href="#about-project-blossom" x="256" y="117" width="12" height="12" style="color:#FFAFCC" opacity=".52"/><use href="#about-project-blossom" x="342" y="222" width="11" height="11" style="color:#FFC8DD" opacity=".45"/><use href="#about-project-blossom" x="389" y="148" width="10" height="10" style="color:#FFB7C5" opacity=".4"/>
+        </g>
+        <g id="about-right-canopy" clip-path="url(#about-right-corner)"><g transform="translate(1020 0)"><use href="#about-tree-art"/><use href="#about-tree-blossoms"/></g></g>
+      </defs>
+      <use href="#about-right-canopy"/>
+      <use href="#about-right-canopy" transform="translate(1440 0) scale(-1 1)"/>
+    </svg>
+    <i class="corner-petal petal-one"></i><i class="corner-petal petal-two"></i><i class="corner-petal petal-three"></i><i class="corner-petal petal-four"></i>
+    <i class="corner-petal petal-left-one"></i><i class="corner-petal petal-left-two"></i><i class="corner-petal petal-left-three"></i><i class="corner-petal petal-left-four"></i>
+    <i class="corner-petal petal-five"></i><i class="corner-petal petal-six"></i><i class="corner-petal petal-seven"></i>
+    <i class="corner-petal petal-left-five"></i><i class="corner-petal petal-left-six"></i><i class="corner-petal petal-left-seven"></i>
+  </div>
   <section class="about-page-hero" aria-labelledby="about-page-title">
     <p class="section-kicker">BACKGROUND &amp; JOURNEY</p>
     <h1 id="about-page-title">About me.</h1>
@@ -10,7 +40,7 @@
   </section>
 
   <section class="about-intro content-width">
-    <div class="about-heading-panel">
+    <div class="about-heading-panel hanging-intro">
       <p class="section-kicker">A LITTLE ABOUT ME</p>
       <h1>Built to last.<br><em>Ready to learn.</em></h1>
     </div>
@@ -23,7 +53,7 @@
   <div class="about-resume content-width">
     <section class="about-resume-section" aria-labelledby="journey-title">
       <div class="about-section-heading"><div><p class="section-kicker">MY JOURNEY</p><h2 id="journey-title">Education and <em>development.</em></h2></div></div>
-      <div class="about-journey-list">
+      <div class="about-journey-list" data-bloom-group>
         <article class="about-journey-card">
           <p class="about-journey-date">2025 – 2028</p>
           <div><h3>Diploma in Information Technology</h3><p>Republic Polytechnic, with a focus on building a strong foundation in IT, software development, and digital problem-solving.</p></div>
@@ -41,10 +71,15 @@
 
     <section class="about-resume-section" aria-labelledby="technical-title">
       <div class="about-section-heading"><div><p class="section-kicker">TECHNICAL SKILLS</p><h2 id="technical-title">What I <em>focus on.</em></h2></div></div>
-      <div class="about-technical-grid">
-        <article class="about-info-card"><h3>Frontend Development</h3><ul><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Modern web frameworks</li></ul></article>
-        <article class="about-info-card"><h3>Backend Development</h3><ul><li>Web application development</li><li>Deployment</li><li>Version control</li><li>Collaborative development</li></ul></article>
-        <article class="about-info-card"><h3>UI/UX and Quality</h3><ul><li>UI/UX design fundamentals</li><li>DevOps-enabled development</li><li>Software testing</li><li>Agile and Scrum practices</li></ul></article>
+      <div class="skill-explorer" data-skill-explorer>
+        <div class="skill-filters" role="group" aria-label="Filter technical skills">
+          <button type="button" data-skill-filter="all" aria-pressed="true">All</button><button type="button" data-skill-filter="frontend" aria-pressed="false">Frontend</button><button type="button" data-skill-filter="backend" aria-pressed="false">Backend</button><button type="button" data-skill-filter="quality" aria-pressed="false">UI/UX &amp; Quality</button>
+        </div>
+        <div class="about-technical-grid">
+          <article class="about-info-card skill-cluster" data-skill-category="frontend"><h3>Frontend Development</h3><div class="skill-pills"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Modern web frameworks</span></div></article>
+          <article class="about-info-card skill-cluster" data-skill-category="backend"><h3>Backend Development</h3><div class="skill-pills"><span>Web application development</span><span>Deployment</span><span>Version control</span><span>Collaborative development</span></div></article>
+          <article class="about-info-card skill-cluster" data-skill-category="quality"><h3>UI/UX and Quality</h3><div class="skill-pills"><span>UI/UX design fundamentals</span><span>DevOps-enabled development</span><span>Software testing</span><span>Agile and Scrum practices</span></div></article>
+        </div>
       </div>
     </section>
 
